@@ -1,4 +1,4 @@
-package com.example.todo_clean_arch
+package com.iago_mesquita.todo_clean_arch
 
 import io.flutter.embedding.android.FlutterActivity
 
