@@ -21,6 +21,24 @@ class ToDoModel extends ToDo {
       'isDone': isDone
     };
   }
+
+  /// 🔁 Converte o model para a entidade do domínio
+  ToDo toEntity() {
+    return ToDo(
+      id: id, 
+      title: title,
+      isDone: isDone
+    );
+  }
+
+  /// (opcional) Converte entidade para model, útil se quiser salvar no Firebase
+  // factory ToDoModel.fromEntity(ToDo todo) {
+  //   return ToDoModel(
+  //     id: todo.id,
+  //     title: todo.title,
+  //     isDone: todo.isDone,
+  //   );
+  // }
 }
 
 // Este model é responsável por converter entre Firebase/JSON e a entidade ToDo.
