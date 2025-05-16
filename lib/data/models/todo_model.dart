@@ -7,6 +7,7 @@ class ToDoModel extends ToDo {
     required bool isDone,
   }) : super(id: id, title: title, isDone: isDone);
 
+  // Do Firebase para ToDoModel (Esse faz sentido)
   factory ToDoModel.fromMap(Map<String, dynamic> map, String id) {
     return ToDoModel(
       id: id,
@@ -14,7 +15,8 @@ class ToDoModel extends ToDo {
       isDone: map['isDone'] ?? '',
     );
   }
-
+  
+  // gera o Map<String, dynamic> esperado pelo Firestore.
   Map<String, dynamic> toMap() {
     return {
       'title': title,
@@ -22,7 +24,8 @@ class ToDoModel extends ToDo {
     };
   }
 
-  /// 🔁 Converte o model para a entidade do domínio
+  // (Esse faz sentido)
+  /// 🔁 Converte o model para a entidade do domínio -> OBS: testar se realmente e necessario, ja que ToDoModel extends de ToDo
   ToDo toEntity() {
     return ToDo(
       id: id, 
@@ -31,14 +34,15 @@ class ToDoModel extends ToDo {
     );
   }
 
-  /// (opcional) Converte entidade para model, útil se quiser salvar no Firebase
-  // factory ToDoModel.fromEntity(ToDo todo) {
-  //   return ToDoModel(
-  //     id: todo.id,
-  //     title: todo.title,
-  //     isDone: todo.isDone,
-  //   );
-  // }
+  /// Converte entidade para model, útil se quiser salvar no Firebase
+  factory ToDoModel.fromEntity(ToDo todo) {
+    return ToDoModel(
+      id: todo.id,
+      title: todo.title,
+      isDone: todo.isDone,
+    );
+  }
+
 }
 
 // Este model é responsável por converter entre Firebase/JSON e a entidade ToDo.
