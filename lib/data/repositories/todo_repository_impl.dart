@@ -6,7 +6,6 @@ import 'package:todo_clean_arch/domain/entities/todo.dart';
 import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
 
 class ToDoRepositoryImpl implements ToDoRepository {
-
   final FirebaseFirestore firestore;
 
   ToDoRepositoryImpl(this.firestore);
@@ -19,61 +18,75 @@ class ToDoRepositoryImpl implements ToDoRepository {
       return snapShot.docs.map((doc) {
         return ToDoModel.fromMap(doc.data(), doc.id).toEntity();
       }).toList();
-    } on FirebaseException catch(e, stackTrace) {
-       throw GetToDosException(e.message! , e.code, stackTrace);
-    }catch (e, stackTrace) {
+    } on FirebaseException catch (e, stackTrace) {
+      throw FirestoreException(
+          message: e.message ?? 'Erro desconhecido',
+          code: e.code,
+          stackTrace: stackTrace,
+          operation: 'getToDos');
+    } catch (e, stackTrace) {
       throw Exception('Algo deu errado ao consultar as todos');
       print(stackTrace);
     }
   }
-  
+
   @override
   Future<void> addToDo(ToDo todo) async {
     try {
-      final todoModel = ToDoModel.fromEntity(todo); 
+      final todoModel = ToDoModel.fromEntity(todo);
       await firestore.collection('todos').add(todoModel.toMap());
-
-    } on FirebaseException catch(e, stackTrace) {  
-      throw AddToDoException(e.message! , e.code, stackTrace);
-    } 
-    catch (e, stackTrace) {
+    } on FirebaseException catch (e, stackTrace) {
+      throw FirestoreException(
+          message: e.message ?? 'Erro desconhecido',
+          code: e.code,
+          stackTrace: stackTrace,
+          operation: 'addToDO');
+    } catch (e, stackTrace) {
       throw Exception('Algo deu errado ao adicinar as todos');
       print(stackTrace);
     }
   }
-  
+
   @override
   Future<void> deleteToDo(String id) async {
     try {
       final docRef = firestore.collection('todos').doc(id);
       final doc = await docRef.get();
 
-      if(!doc.exists) {
-        throw FirestoreException(message: 'Todo com id $id nao encontrado');
+      if (!doc.exists) {
+        throw FirestoreException(
+            message: 'Todo com id $id nao encontrado', operation: 'deleteToDo');
       }
 
       final data = doc.data();
-      final updated = { 'isDone': !(data!['isDone'] ?? false)};
+      final updated = {'isDone': !(data!['isDone'] ?? false)};
       await docRef.update(updated);
-    } on DeleteToDoException catch(e, stackTrace) {
-      // throw DeleteToDoException(message: e.message!, code: e.code, stackTrace: stackTrace);
-    } catch(e, stackTrace) {
+    } on FirebaseException catch (e, stackTrace) {
+      throw FirestoreException(
+        message: e.message ?? 'Erro desconhecido',
+        code: e.code,
+        stackTrace: stackTrace,
+        operation: 'deleteToDo',
+      );
+    } catch (e, stackTrace) {
       throw Exception('Erro ao deletar uma todo.');
       print(stackTrace);
     }
   }
-  
+
   @override
   Future<void> toggleToDoStatus(String id) async {
     try {
       await firestore.collection('todos').doc(id).delete();
-    } on FirebaseException catch(e, stackTrace) {
-      // throw ToggleToDoException(mess);
-    } catch(e, stackTrace) {
-       throw Exception('Erro ao alterar status da todo.');
+    } on FirebaseException catch (e, stackTrace) {
+      throw FirestoreException(
+          message: e.message ?? 'Erro desconhecido',
+          code: e.code,
+          stackTrace: stackTrace,
+          operation: 'toggleToDoStatus');
+    } catch (e, stackTrace) {
+      throw Exception('Erro ao alterar status da todo.');
       print(stackTrace);
     }
   }
-
-
 }
