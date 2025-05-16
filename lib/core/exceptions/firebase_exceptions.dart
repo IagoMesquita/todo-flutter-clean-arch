@@ -31,6 +31,18 @@ class AddToDoException extends FirestoreException {
         );
 }
 
+class ToggleToDoException extends FirestoreException {
+  ToggleToDoException(
+    String message,
+    String? code,
+    StackTrace? stackTrace,
+  ) : super(
+          message: message,
+          code: code,
+          stackTrace: stackTrace,
+        );
+}
+
 class DeleteToDoException extends FirestoreException {
   DeleteToDoException(
     String message,
