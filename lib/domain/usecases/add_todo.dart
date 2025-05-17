@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:todo_clean_arch/domain/entities/todo.dart';
+import 'package:todo_clean_arch/domain/params/create_todo_params.dart';
 import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
 
 class AddToDo {
@@ -8,7 +9,12 @@ class AddToDo {
 
   AddToDo(this.repository);
 
-  Future<void> call(ToDo todo) async {
+  Future<void> call(CreateTodoParams todoParams) async {
+    final todo = ToDo(
+      id: '',
+      title: todoParams.title,
+      isDone: false,
+    );
     await repository.addToDo(todo);
   }
 }

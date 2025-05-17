@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_clean_arch/data/repositories/todo_repository_impl.dart';
+import 'package:todo_clean_arch/domain/entities/todo.dart';
+import 'package:todo_clean_arch/domain/params/create_todo_params.dart';
 import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
 import 'package:todo_clean_arch/domain/usecases/add_todo.dart';
 import 'package:todo_clean_arch/domain/usecases/delete_todo.dart';
@@ -17,10 +19,9 @@ class ToDoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final firestore = FirebaseFirestore.instance;
     final ToDoRepository repository = ToDoRepositoryImpl(firestore);
-    
+
     return BlocProvider(
       create: (_) => ToDoCubit(
-
         getToDos: GetToDos(repository),
         addToDo: AddToDo(repository),
         toggleToDo: ToggleToDo(repository),
@@ -79,6 +80,43 @@ class ToDoPage extends StatelessWidget {
             return const SizedBox.shrink(); // estado inicial
           },
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            final title = await _showAddDialog(context);
+            // print('Nao tem texto: $title');
+            if (title != null && title.trim().isNotEmpty) {
+              // print('Tem texto: $title');
+              context.read<ToDoCubit>().createToDos(CreateTodoParams(title));
+            }
+          },
+          child: const Icon(Icons.add),
+        ),
+      ),
+      
+    );
+  }
+
+  Future<String?> _showAddDialog(BuildContext context) async {
+    final controller = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Nova tarefa'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(hintText: 'Digite o titulo'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: const Text('Adicionar'),
+          ),
+        ],
       ),
     );
   }
