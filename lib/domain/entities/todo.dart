@@ -9,7 +9,7 @@ class ToDo extends Equatable {
     required this.id,
     required this.title,
     required this.isDone,
-  })
+  });
 
   @override
   List<Object> get props => [id,title, isDone];
