@@ -6,13 +6,13 @@ import 'package:todo_clean_arch/domain/usecases/get_todos.dart';
 import 'package:todo_clean_arch/domain/usecases/toggle_todo.dart';
 import 'package:todo_clean_arch/presentation/cubit/todo_state.dart';
 
-class TodoCubit extends Cubit<ToDoState> {
+class ToDoCubit extends Cubit<ToDoState> {
   final GetToDos getToDos;
   final AddToDo addToDo;
   final ToggleToDo toggleToDo;
   final DeleteToDo deleteToDo;
 
-  TodoCubit({
+  ToDoCubit({
     required this.getToDos,
     required this.addToDo,
     required this.toggleToDo,
