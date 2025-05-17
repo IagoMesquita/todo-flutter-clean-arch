@@ -20,10 +20,11 @@ class ToDoRepositoryImpl implements ToDoRepository {
       }).toList();
     } on FirebaseException catch (e, stackTrace) {
       throw FirestoreException(
-          message: e.message ?? 'Erro desconhecido',
-          code: e.code,
-          stackTrace: stackTrace,
-          operation: 'getToDos');
+        message: e.message ?? 'Erro desconhecido',
+        code: e.code,
+        stackTrace: stackTrace,
+        operation: 'getToDos',
+      );
     } catch (e, stackTrace) {
       throw Exception('Algo deu errado ao consultar as todos');
       print(stackTrace);
@@ -37,10 +38,11 @@ class ToDoRepositoryImpl implements ToDoRepository {
       await firestore.collection('todos').add(todoModel.toMap());
     } on FirebaseException catch (e, stackTrace) {
       throw FirestoreException(
-          message: e.message ?? 'Erro desconhecido',
-          code: e.code,
-          stackTrace: stackTrace,
-          operation: 'addToDO');
+        message: e.message ?? 'Erro desconhecido',
+        code: e.code,
+        stackTrace: stackTrace,
+        operation: 'addToDO',
+      );
     } catch (e, stackTrace) {
       throw Exception('Algo deu errado ao adicinar as todos');
       print(stackTrace);
@@ -48,7 +50,7 @@ class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @override
-  Future<void> deleteToDo(String id) async {
+  Future<void> toggleToDoStatus(String id) async {
     try {
       final docRef = firestore.collection('todos').doc(id);
       final doc = await docRef.get();
@@ -75,7 +77,7 @@ class ToDoRepositoryImpl implements ToDoRepository {
   }
 
   @override
-  Future<void> toggleToDoStatus(String id) async {
+  Future<void> deleteToDo(String id) async {
     try {
       await firestore.collection('todos').doc(id).delete();
     } on FirebaseException catch (e, stackTrace) {
