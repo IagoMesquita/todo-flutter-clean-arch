@@ -1,40 +1,38 @@
 import 'package:todo_clean_arch/domain/entities/todo.dart';
 
-class ToDoModel extends ToDo {
-  const ToDoModel({
-    required String id,
-    required String title,
-    required bool isDone,
-  }) : super(id: id, title: title, isDone: isDone);
+class ToDoModel {
+  final String id;
+  final String title;
+  final bool isDone;
 
-  // Do Firebase para ToDoModel (Esse faz sentido)
+
+  const ToDoModel({
+    required this.id,
+    required this.title,
+    required this.isDone,
+  });
+
+  // Traduzir o que vem do Firebase em algo que sua aplicação entende (Esse faz sentido)
   factory ToDoModel.fromMap(Map<String, dynamic> map, String id) {
     return ToDoModel(
       id: id,
       title: map['title'] ?? '',
-      isDone: map['isDone'] ?? '',
+      isDone: map['isDone'] ?? false,
     );
   }
-  
-  // gera o Map<String, dynamic> esperado pelo Firestore.
+
+  // Preparar seus dados para serem salvos no Firebase. Gera o Map<String, dynamic> esperado pelo Firestore. (Esse faz seentido)
   Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'isDone': isDone
-    };
+    return {'title': title, 'isDone': isDone};
   }
 
   // (Esse faz sentido)
   /// 🔁 Converte o model para a entidade do domínio -> OBS: testar se realmente e necessario, ja que ToDoModel extends de ToDo
   ToDo toEntity() {
-    return ToDo(
-      id: id, 
-      title: title,
-      isDone: isDone
-    );
+    return ToDo(id: id, title: title, isDone: isDone);
   }
 
-  /// Converte entidade para model, útil se quiser salvar no Firebase
+  // Converte entidade para model, útil se quiser salvar no Firebase
   factory ToDoModel.fromEntity(ToDo todo) {
     return ToDoModel(
       id: todo.id,
@@ -64,3 +62,9 @@ class ToDoModel extends ToDo {
 
 // Você poderia sim separar isso em Mappers puros se quisesse seguir mais fielmente o estilo Java. 
 //Mas como em Dart/Flutter é comum usar factory constructors e métodos direto na classe Model, fica mais compacto.
+
+// Método	       Função
+// fromMap()	   Firebase → Model
+// toMap()	     Model → Firebase
+// fromEntity()	 Entidade → Model (útil para salvar)
+// toEntity()	   Model → Entidade (útil para retornar ao domínio)
