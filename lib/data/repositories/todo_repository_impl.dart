@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:todo_clean_arch/core/exceptions/firebase_exceptions.dart';
 import 'package:todo_clean_arch/data/models/todo_model.dart';
 import 'package:todo_clean_arch/domain/entities/todo.dart';
 import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
+import 'package:todo_clean_arch/extensions/todo_mapper.dart';
 
 class ToDoRepositoryImpl implements ToDoRepository {
   final FirebaseFirestore firestore;
@@ -16,7 +16,8 @@ class ToDoRepositoryImpl implements ToDoRepository {
       final snapShot = await firestore.collection('todos').get();
 
       return snapShot.docs.map((doc) {
-        return ToDoModel.fromMap(doc.data(), doc.id).toEntity();
+        final todoModel =  ToDoModel.fromMap(doc.data(), doc.id);
+        return todoModel.toEntity();
       }).toList();
     } on FirebaseException catch (e, stackTrace) {
       throw FirestoreException(
@@ -34,7 +35,7 @@ class ToDoRepositoryImpl implements ToDoRepository {
   @override
   Future<void> addToDo(ToDo todo) async {
     try {
-      final todoModel = ToDoModel.fromEntity(todo);
+      final todoModel =  todo.fromEntity(todo);
       await firestore.collection('todos').add(todoModel.toMap());
     } on FirebaseException catch (e, stackTrace) {
       throw FirestoreException(

@@ -1,10 +1,7 @@
-import 'package:todo_clean_arch/domain/entities/todo.dart';
-
 class ToDoModel {
   final String id;
   final String title;
   final bool isDone;
-
 
   const ToDoModel({
     required this.id,
@@ -14,6 +11,7 @@ class ToDoModel {
 
   // Traduzir o que vem do Firebase em algo que sua aplicação entende (Esse faz sentido)
   factory ToDoModel.fromMap(Map<String, dynamic> map, String id) {
+    // -> fromJson
     return ToDoModel(
       id: id,
       title: map['title'] ?? '',
@@ -23,24 +21,9 @@ class ToDoModel {
 
   // Preparar seus dados para serem salvos no Firebase. Gera o Map<String, dynamic> esperado pelo Firestore. (Esse faz seentido)
   Map<String, dynamic> toMap() {
+    // -> toJson
     return {'title': title, 'isDone': isDone};
   }
-
-  // (Esse faz sentido)
-  /// 🔁 Converte o model para a entidade do domínio -> OBS: testar se realmente e necessario, ja que ToDoModel extends de ToDo
-  ToDo toEntity() {
-    return ToDo(id: id, title: title, isDone: isDone);
-  }
-
-  // Converte entidade para model, útil se quiser salvar no Firebase
-  factory ToDoModel.fromEntity(ToDo todo) {
-    return ToDoModel(
-      id: todo.id,
-      title: todo.title,
-      isDone: todo.isDone,
-    );
-  }
-
 }
 
 // Este model é responsável por converter entre Firebase/JSON e a entidade ToDo.
@@ -51,8 +34,6 @@ class ToDoModel {
 // ToDoModel é um Data Model, fica na camada data/, e faz conversão para/da entidade
 // Nota: Equivalente a um DTO + Mapper, usado na camada data/ para ler e gravar dados no Firebase, BD...
 
-
-
 // 🔁 2. E o fromMap/toMap? Seriam como fromEntity/toEntity?
 // Exatamente!
 
@@ -60,7 +41,7 @@ class ToDoModel {
 
 // toMap() → como toDto() ou toJson()
 
-// Você poderia sim separar isso em Mappers puros se quisesse seguir mais fielmente o estilo Java. 
+// Você poderia sim separar isso em Mappers puros se quisesse seguir mais fielmente o estilo Java.
 //Mas como em Dart/Flutter é comum usar factory constructors e métodos direto na classe Model, fica mais compacto.
 
 // Método	       Função
