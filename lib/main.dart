@@ -1,11 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_clean_arch/data/repositories/todo_repository_impl.dart';
+import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
+import 'package:todo_clean_arch/domain/usecases/add_todo.dart';
+import 'package:todo_clean_arch/domain/usecases/delete_todo.dart';
+import 'package:todo_clean_arch/domain/usecases/get_todos.dart';
+import 'package:todo_clean_arch/domain/usecases/toggle_todo.dart';
+import 'package:todo_clean_arch/presentation/cubit/todo_cubit.dart';
 import 'package:todo_clean_arch/presentation/pages/todo_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+
+  final firestore = FirebaseFirestore.instance;
+  final ToDoRepository repository = ToDoRepositoryImpl(firestore);
+
+  runApp(
+    BlocProvider(
+      create: (_) => ToDoCubit(
+        getToDos: GetToDos(repository),
+        addToDo: AddToDo(repository),
+        toggleToDo: ToggleToDo(repository),
+        deleteToDo: DeleteToDo(repository),
+      )..fetchToDos(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -22,54 +46,6 @@ class MyApp extends StatelessWidget {
       ),
       home: const ToDoPage(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
     );
   }
 }
