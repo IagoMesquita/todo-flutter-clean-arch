@@ -65,15 +65,13 @@ class ToDoPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           final newTodo = await _showAddDialog(context);
-          // print('Nao tem texto: $title');
           if (newTodo != null &&
-              newTodo['title']!.isEmpty &&
-              newTodo['description']!.isEmpty) {
-            // print('Tem texto: $title');
+              newTodo['title']!.isNotEmpty &&
+              newTodo['description']!.isNotEmpty) {
             context.read<ToDoCubit>().createToDos(
                   CreateTodoParams(
                     title: newTodo['title']!,
-                    description: newTodo['descriptio']!,
+                    description: newTodo['description']!,
                   ),
                 );
           }
@@ -91,18 +89,21 @@ class ToDoPage extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Nova tarefa'),
-        content: Column(
-          children: [
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(hintText: 'Digite o titulo'),
-            ),
-            TextField(
-              controller: descriptionController,
-              decoration:
-                  const InputDecoration(hintText: 'Descreva sua tarega'),
-            ),
-          ],
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: const InputDecoration(hintText: 'Digite o titulo'),
+              ),
+              TextField(
+                controller: descriptionController,
+                decoration:
+                    const InputDecoration(hintText: 'Descreva sua tarega'),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -110,8 +111,10 @@ class ToDoPage extends StatelessWidget {
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(
-                context, {titleController.text, descriptionController.text}),
+            onPressed: () => Navigator.pop(context, {
+              'title': titleController.text,
+              'description': descriptionController.text
+            }),
             child: const Text('Adicionar'),
           ),
         ],
