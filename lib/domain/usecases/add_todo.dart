@@ -13,6 +13,8 @@ class AddToDo {
     final todo = ToDo(
       id: '',
       title: todoParams.title,
+      description: todoParams.description,
+      createdAt: DateTime.now(),
       isDone: false,
     );
     await repository.addToDo(todo);

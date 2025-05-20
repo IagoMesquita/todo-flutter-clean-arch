@@ -1,14 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_clean_arch/data/repositories/todo_repository_impl.dart';
-import 'package:todo_clean_arch/domain/entities/todo.dart';
 import 'package:todo_clean_arch/domain/usecases/params/create_todo_params.dart';
-import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
-import 'package:todo_clean_arch/domain/usecases/add_todo.dart';
-import 'package:todo_clean_arch/domain/usecases/delete_todo.dart';
-import 'package:todo_clean_arch/domain/usecases/get_todos.dart';
-import 'package:todo_clean_arch/domain/usecases/toggle_todo.dart';
 import 'package:todo_clean_arch/presentation/cubit/todo_cubit.dart';
 import 'package:todo_clean_arch/presentation/cubit/todo_state.dart';
 
@@ -72,11 +64,18 @@ class ToDoPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final title = await _showAddDialog(context);
+          final newTodo = await _showAddDialog(context);
           // print('Nao tem texto: $title');
-          if (title != null && title.trim().isNotEmpty) {
+          if (newTodo != null &&
+              newTodo['title']!.isEmpty &&
+              newTodo['description']!.isEmpty) {
             // print('Tem texto: $title');
-            context.read<ToDoCubit>().createToDos(CreateTodoParams(title));
+            context.read<ToDoCubit>().createToDos(
+                  CreateTodoParams(
+                    title: newTodo['title']!,
+                    description: newTodo['descriptio']!,
+                  ),
+                );
           }
         },
         child: const Icon(Icons.add),
@@ -84,16 +83,26 @@ class ToDoPage extends StatelessWidget {
     );
   }
 
-  Future<String?> _showAddDialog(BuildContext context) async {
-    final controller = TextEditingController();
+  Future<Map<String, String>?> _showAddDialog(BuildContext context) async {
+    final titleController = TextEditingController();
+    final descriptionController = TextEditingController();
 
-    return showDialog<String>(
+    return showDialog<Map<String, String>>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Nova tarefa'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'Digite o titulo'),
+        content: Column(
+          children: [
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(hintText: 'Digite o titulo'),
+            ),
+            TextField(
+              controller: descriptionController,
+              decoration:
+                  const InputDecoration(hintText: 'Descreva sua tarega'),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -101,7 +110,8 @@ class ToDoPage extends StatelessWidget {
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context, controller.text),
+            onPressed: () => Navigator.pop(
+                context, {titleController.text, descriptionController.text}),
             child: const Text('Adicionar'),
           ),
         ],

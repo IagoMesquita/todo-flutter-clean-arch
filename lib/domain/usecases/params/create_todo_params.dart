@@ -1,5 +1,9 @@
 class CreateTodoParams {
   final String title;
+  final String description;
 
-  CreateTodoParams(this.title);
+  CreateTodoParams({
+    required this.title,
+    required this.description,
+  });
 }

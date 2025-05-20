@@ -1,11 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ToDoModel {
   final String id;
   final String title;
+  final String description;
+  final DateTime createdAt;
   final bool isDone;
 
   const ToDoModel({
     required this.id,
     required this.title,
+    required this.description,
+    required this.createdAt,
     required this.isDone,
   });
 
@@ -15,6 +21,9 @@ class ToDoModel {
     return ToDoModel(
       id: id,
       title: map['title'] ?? '',
+      description: map['description'],
+      createdAt:
+          (map['createdAt'] as Timestamp).toDate(), //Firebaseusa Timestamp
       isDone: map['isDone'] ?? false,
     );
   }
@@ -22,7 +31,12 @@ class ToDoModel {
   // Preparar seus dados para serem salvos no Firebase. Gera o Map<String, dynamic> esperado pelo Firestore. (Esse faz seentido)
   Map<String, dynamic> toMap() {
     // -> toJson
-    return {'title': title, 'isDone': isDone};
+    return {
+      'title': title,
+      'description': description,
+      'createdAt': createdAt,
+      'isDone': isDone,
+    };
   }
 }
 

@@ -8,7 +8,10 @@ extension TodoMapper on ToDoModel {
     return ToDo(
       id: id,
       title: title,
+      description: description,
+      createdAt: createdAt,
       isDone: isDone,
+
     );
   }
 }
@@ -19,6 +22,8 @@ extension ToDoEntityMapper on ToDo {
     return ToDoModel(
       id: todo.id,
       title: todo.title,
+      description: description,
+      createdAt: createdAt,
       isDone: todo.isDone,
     );
   }
