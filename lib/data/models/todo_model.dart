@@ -21,14 +21,13 @@ class ToDoModel {
     return ToDoModel(
       id: id,
       title: map['title'] ?? '',
-      description: map['description'],
-      createdAt:
-          (map['createdAt'] as Timestamp).toDate(), //Firebaseusa Timestamp
+      description: map['description'] ?? '',
+      createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(), //Firebase usa Timestamp
       isDone: map['isDone'] ?? false,
     );
   }
 
-  // Preparar seus dados para serem salvos no Firebase. Gera o Map<String, dynamic> esperado pelo Firestore. (Esse faz seentido)
+  // Preparar seus dados para serem salvos no Firebase. Gera o Map<String, dynamic> esperado pelo Firestore. (Esse faz sentido)
   Map<String, dynamic> toMap() {
     // -> toJson
     return {
