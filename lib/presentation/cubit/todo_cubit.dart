@@ -27,6 +27,7 @@ class ToDoCubit extends Cubit<ToDoState> {
       final todos = await getToDos();
       emit(ToDoLoaded(todos));
     } catch (e) {
+      print(e);
       emit(ToDoError('Error ao carragar as tarefas'));
     }
   }
@@ -36,6 +37,7 @@ class ToDoCubit extends Cubit<ToDoState> {
       await addToDo(todoParams);
       await fetchToDos(); //atualiza a lista
     } catch (e) {
+      print(e);
       emit(ToDoError('Error ao adicionar tarefa'));
     }
   }
@@ -45,6 +47,7 @@ class ToDoCubit extends Cubit<ToDoState> {
       await deleteToDo(id);
       await fetchToDos();
     } catch (e) {
+      print(e);
       emit(ToDoError('Error ao deletar uma tareda de ID: $id'));
     }
   }
@@ -54,6 +57,7 @@ class ToDoCubit extends Cubit<ToDoState> {
       await toggleToDo(id);
       await fetchToDos();
     } catch (e) {
+      print(e);
       emit(ToDoError('Erro ao atualizar a tareda'));
     }
   }
