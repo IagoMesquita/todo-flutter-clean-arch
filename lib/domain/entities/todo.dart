@@ -3,16 +3,20 @@ import 'package:equatable/equatable.dart';
 class ToDo extends Equatable {
   final String id;
   final String title;
+  final String description;
+  final DateTime createdAt;
   final bool isDone;
 
   const ToDo({
     required this.id,
     required this.title,
+    required this.description,
+    required this.createdAt,
     required this.isDone,
   });
 
   @override
-  List<Object> get props => [id,title, isDone];
+  List<Object> get props => [id, title, description, createdAt, isDone];
 }
 
 // A entidade (Entity) na camada Domain representa um modelo de negócio puro, sem dependência de banco, framework ou Firebase.
