@@ -27,8 +27,8 @@ class ToDoRepositoryImpl implements ToDoRepository {
         operation: 'getToDos',
       );
     } catch (e, stackTrace) {
-      throw Exception('Algo deu errado ao consultar as todos');
       print(stackTrace);
+      throw Exception('Algo deu errado ao consultar as todos');
     }
   }
 
@@ -45,8 +45,8 @@ class ToDoRepositoryImpl implements ToDoRepository {
         operation: 'addToDO',
       );
     } catch (e, stackTrace) {
-      throw Exception('Algo deu errado ao adicinar as todos');
       print(stackTrace);
+      throw Exception('Algo deu errado ao adicinar as todos');
     }
   }
 
@@ -72,8 +72,8 @@ class ToDoRepositoryImpl implements ToDoRepository {
         operation: 'deleteToDo',
       );
     } catch (e, stackTrace) {
-      throw Exception('Erro ao deletar uma todo.');
       print(stackTrace);
+      throw Exception('Erro ao deletar uma todo.');
     }
   }
 
@@ -88,8 +88,8 @@ class ToDoRepositoryImpl implements ToDoRepository {
           stackTrace: stackTrace,
           operation: 'toggleToDoStatus');
     } catch (e, stackTrace) {
-      throw Exception('Erro ao alterar status da todo.');
       print(stackTrace);
+      throw Exception('Erro ao alterar status da todo.');
     }
   }
 }
