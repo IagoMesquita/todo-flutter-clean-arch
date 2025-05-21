@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_clean_arch/domain/usecases/params/create_todo_params.dart';
 import 'package:todo_clean_arch/presentation/cubit/todo_cubit.dart';
 import 'package:todo_clean_arch/presentation/cubit/todo_state.dart';
+import 'package:todo_clean_arch/presentation/pages/todo_detail_page.dart';
 
 class ToDoPage extends StatelessWidget {
   const ToDoPage({super.key});
@@ -36,6 +37,14 @@ class ToDoPage extends StatelessWidget {
                 final todo = state.todos[index];
 
                 return ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ToDoDetailPage(todo: todo),
+                      ),
+                    );
+                  },
                   leading: Checkbox(
                     value: todo.isDone,
                     onChanged: (_) {
