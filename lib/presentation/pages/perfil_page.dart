@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_clean_arch/presentation/pages/about_page.dart';
+import 'package:todo_clean_arch/presentation/pages/user_data_page.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});
@@ -18,10 +20,10 @@ class PerfilPage extends StatelessWidget {
                 title: const Text('Dados do Usuario'),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: const UserDatapage()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const UserDataPage()),
+                  );
                 },
               ),
             ),
@@ -31,10 +33,10 @@ class PerfilPage extends StatelessWidget {
                 title: const Text('Sobre'),
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: const Aboutpage()),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const AboutPage()),
+                  );
                 },
               ),
             )
