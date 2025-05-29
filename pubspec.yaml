@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   cloud_firestore: ^4.8.4
   firebase_core: ^2.30.0
+  firebase_auth: ^4.17.4
+  fluttertoast: ^8.2.4 # para mostrar mensagens úteis
   flutter_bloc: ^8.1.5
   get_it: ^7.6.7
   equatable: ^2.0.5
