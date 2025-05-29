@@ -1,4 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_clean_arch/data/repositories/todo_repository_impl.dart';
+import 'package:todo_clean_arch/domain/usecases/add_todo.dart';
+import 'package:todo_clean_arch/domain/usecases/delete_todo.dart';
+import 'package:todo_clean_arch/domain/usecases/get_todos.dart';
+import 'package:todo_clean_arch/domain/usecases/toggle_todo.dart';
+import 'package:todo_clean_arch/presentation/cubit/todo_cubit.dart';
 import 'package:todo_clean_arch/presentation/pages/perfil_page.dart';
 import 'package:todo_clean_arch/presentation/pages/todo_page.dart';
 
@@ -11,11 +19,33 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  late final List<Widget> _pages;
 
-  final List<Widget> _pages = [const ToDoPage(), const PerfilPage()];
+  @override
+  void initState() {
+    super.initState();
+
+    final firestore = FirebaseFirestore.instance;
+    final repository = ToDoRepositoryImpl(firestore);
+
+    final todoCubit = ToDoCubit(
+      getToDos: GetToDos(repository),
+      addToDo: AddToDo(repository),
+      toggleToDo: ToggleToDo(repository),
+      deleteToDo: DeleteToDo(repository),
+    )..fetchToDos();
+
+    _pages = [
+      BlocProvider<ToDoCubit>.value(
+        value: todoCubit,
+        child: const ToDoPage(),
+      ),
+      const PerfilPage()
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
