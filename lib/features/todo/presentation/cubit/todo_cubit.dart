@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_clean_arch/domain/usecases/params/create_todo_params.dart';
-import 'package:todo_clean_arch/domain/usecases/add_todo.dart';
-import 'package:todo_clean_arch/domain/usecases/delete_todo.dart';
-import 'package:todo_clean_arch/domain/usecases/get_todos.dart';
-import 'package:todo_clean_arch/domain/usecases/toggle_todo.dart';
-import 'package:todo_clean_arch/presentation/cubit/todo_state.dart';
+import 'package:todo_clean_arch/features/todo/domain/usecases/params/create_todo_params.dart';
+import 'package:todo_clean_arch/features/todo/domain/usecases/add_todo.dart';
+import 'package:todo_clean_arch/features/todo/domain/usecases/delete_todo.dart';
+import 'package:todo_clean_arch/features/todo/domain/usecases/get_todos.dart';
+import 'package:todo_clean_arch/features/todo/domain/usecases/toggle_todo.dart';
+import 'package:todo_clean_arch/features/todo/presentation/cubit/todo_state.dart';
 
 class ToDoCubit extends Cubit<ToDoState> {
   final GetToDos getToDos;

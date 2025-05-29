@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_clean_arch/domain/usecases/params/create_todo_params.dart';
-import 'package:todo_clean_arch/presentation/cubit/todo_cubit.dart';
-import 'package:todo_clean_arch/presentation/cubit/todo_state.dart';
-import 'package:todo_clean_arch/presentation/pages/todo_detail_page.dart';
+import 'package:todo_clean_arch/features/todo/domain/usecases/params/create_todo_params.dart';
+import 'package:todo_clean_arch/features/todo/presentation/cubit/todo_cubit.dart';
+import 'package:todo_clean_arch/features/todo/presentation/cubit/todo_state.dart';
+import 'package:todo_clean_arch/features/todo/presentation/pages/todo_detail_page.dart';
 
 class ToDoPage extends StatelessWidget {
   const ToDoPage({super.key});

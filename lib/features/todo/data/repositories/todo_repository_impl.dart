@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_clean_arch/core/exceptions/firebase_exceptions.dart';
-import 'package:todo_clean_arch/data/models/todo_model.dart';
-import 'package:todo_clean_arch/domain/entities/todo.dart';
-import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
+import 'package:todo_clean_arch/features/todo/data/models/todo_model.dart';
+import 'package:todo_clean_arch/features/todo/domain/entities/todo.dart';
+import 'package:todo_clean_arch/features/todo/domain/repositories/todo_repository.dart';
 import 'package:todo_clean_arch/extensions/todo_mapper.dart';
 
 class ToDoRepositoryImpl implements ToDoRepository {

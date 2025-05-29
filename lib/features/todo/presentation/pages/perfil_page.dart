@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_clean_arch/presentation/pages/about_page.dart';
-import 'package:todo_clean_arch/presentation/pages/user_data_page.dart';
+import 'package:todo_clean_arch/features/todo/presentation/pages/about_page.dart';
+import 'package:todo_clean_arch/features/todo/presentation/pages/user_data_page.dart';
 
 class PerfilPage extends StatelessWidget {
   const PerfilPage({super.key});

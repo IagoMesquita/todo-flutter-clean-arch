@@ -1,4 +1,4 @@
-import 'package:todo_clean_arch/domain/repositories/todo_repository.dart';
+import 'package:todo_clean_arch/features/todo/domain/repositories/todo_repository.dart';
 
 class DeleteToDo {
   final ToDoRepository repository;

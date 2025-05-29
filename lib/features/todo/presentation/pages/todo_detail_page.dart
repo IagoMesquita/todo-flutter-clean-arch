@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_clean_arch/domain/entities/todo.dart';
+import 'package:todo_clean_arch/features/todo/domain/entities/todo.dart';
 
 class ToDoDetailPage extends StatelessWidget {
   final ToDo todo;

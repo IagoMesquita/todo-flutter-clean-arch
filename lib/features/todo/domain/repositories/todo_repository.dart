@@ -1,4 +1,4 @@
-import 'package:todo_clean_arch/domain/entities/todo.dart';
+import 'package:todo_clean_arch/features/todo/domain/entities/todo.dart';
 
 abstract class ToDoRepository {
   Future<List<ToDo>> getToDos();
