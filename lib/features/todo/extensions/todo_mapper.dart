@@ -1,5 +1,5 @@
-import 'package:todo_clean_arch/data/models/todo_model.dart';
-import 'package:todo_clean_arch/domain/entities/todo.dart';
+import 'package:todo_clean_arch/features/todo/data/models/todo_model.dart';
+import 'package:todo_clean_arch/features/todo/domain/entities/todo.dart';
 
 extension TodoMapper on ToDoModel {
   // (Esse faz sentido)
