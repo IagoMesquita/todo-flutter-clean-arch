@@ -13,7 +13,7 @@ extension UserModelMappar on UserModel {
 }
 
 extension UserEntity on User {
-  UserModel toMoldel() {
+  UserModel toModel() {
     return UserModel(
       uid: uid,
       phoneNumber: phoneNumber,

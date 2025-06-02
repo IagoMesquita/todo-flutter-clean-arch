@@ -32,9 +32,22 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> saveUser(User user) {
-    // TODO: implement saveUser
-    throw UnimplementedError();
+  Future<void> saveUser(User user) async {
+    try {
+      final userModel = user.toModel();
+
+      await firestore.collection('users').doc(user.uid).set(userModel.toMap());
+    } on FirebaseException catch (e, stackTrace) {
+      throw FirestoreException(
+        message: e.message ?? 'Erro desconhecido',
+        code: e.code,
+        stackTrace: stackTrace,
+        operation: 'saveUser',
+      );
+    } catch (e, stackTrace) {
+      print(stackTrace);
+      throw Exception('Algo deu errado ao consultar um usuario\nMessagem: $e');
+    }
   }
 
   @override
