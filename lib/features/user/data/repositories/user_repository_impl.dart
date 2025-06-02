@@ -51,8 +51,31 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<void> updateUser(User user) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  Future<void> updatePartialUserInfo({
+    required String uid,
+    String? name,
+    String? email,
+  }) async {
+    try {
+      final Map<String, dynamic> updates = {};
+
+      if(name != null) updates['name'] = name;
+      if(email != null) updates['email'] = email;
+
+      if(updates.isNotEmpty) {
+        await firestore.collection('users').doc(uid).update(updates);
+      }
+
+    } on FirebaseException catch (e, stackTrace) {
+      throw FirestoreException(
+        message: e.message ?? 'Erro desconhecido',
+        code: e.code,
+        stackTrace: stackTrace,
+        operation: 'updatePartialUserInfo',
+      );
+    } catch (e, stackTrace) {
+      print(stackTrace);
+      throw Exception('Algo deu errado ao consultar um usuario\nMessagem: $e');
+    }
   }
 }
