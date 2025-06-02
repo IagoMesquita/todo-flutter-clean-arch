@@ -1,3 +1,7 @@
+
+
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
@@ -30,9 +34,11 @@ class UserModel {
       'email': email
     };
   }
-
-  factory UserModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
-    return UserModel.fromMap(data);
+factory UserModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
+  final data = doc.data();
+  if (data == null) {
+    throw StateError('Documento do usuário com id ${doc.id} está vazio.');
   }
+  return UserModel.fromMap(data);
+}
 }
