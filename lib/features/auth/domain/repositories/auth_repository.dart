@@ -6,7 +6,7 @@ abstract class AuthRepository {
 
   /// Envia o codigo de verificacao (OTP) para o numero de telefone.
   Future<void> sendPhoneCode({
-    required String phoneNumer,
+    required String phoneNumber,
     required Function(String verificationId) codeSent,
     required Function(String message) onError,
   });
