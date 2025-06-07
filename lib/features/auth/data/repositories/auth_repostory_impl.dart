@@ -5,10 +5,10 @@ import 'package:todo_clean_arch/features/auth/domain/entities/auth.dart';
 import 'package:todo_clean_arch/features/auth/domain/repositories/auth_repository.dart';
 import 'package:todo_clean_arch/features/auth/extensions/auth_mapper.dart';
 
-class AuthRepostoryImpl extends AuthRepository {
+class AuthRepositoryImpl extends AuthRepository {
   final FirebaseAuth _firebaseAuth;
 
-  AuthRepostoryImpl(this._firebaseAuth);
+  AuthRepositoryImpl(this._firebaseAuth);
 
   @override
   Future<Auth?> getCurrentUser() async {
