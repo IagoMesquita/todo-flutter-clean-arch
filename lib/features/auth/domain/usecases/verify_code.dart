@@ -1,10 +1,10 @@
 import 'package:todo_clean_arch/features/auth/domain/entities/auth.dart';
 import 'package:todo_clean_arch/features/auth/domain/repositories/auth_repository.dart';
 
-class VerifyPhoneNumberUseCase {
+class VerifyCodeUseCase {
   final AuthRepository authRepository;
 
-  VerifyPhoneNumberUseCase(this.authRepository);
+  VerifyCodeUseCase(this.authRepository);
 
   Future<Auth> call({
     required String verificationId,
