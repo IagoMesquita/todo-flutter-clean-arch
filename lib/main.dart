@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  final authRepository = AuthRepositoryImpl(FirebaseAuth.instance);
+  final authRepository = AuthRepositoryImpl(
+    FirebaseAuth.instance,
+    FirebaseFirestore.instance,
+  );
 
   runApp(MyApp(authRepository: authRepository));
 }
