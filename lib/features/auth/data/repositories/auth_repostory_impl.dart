@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_clean_arch/core/exceptions/firebase_exceptions.dart';
 import 'package:todo_clean_arch/features/auth/data/models/auth_model.dart';
@@ -7,8 +8,9 @@ import 'package:todo_clean_arch/features/auth/extensions/auth_mapper.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _firestore;
 
-  AuthRepositoryImpl(this._firebaseAuth);
+  AuthRepositoryImpl(this._firebaseAuth, this._firestore);
 
   @override
   Future<Auth?> getCurrentUser() async {
@@ -57,12 +59,27 @@ class AuthRepositoryImpl extends AuthRepository {
       {required String verificationId, required String smsCode}) async {
     try {
       final credential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: smsCode);
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
 
       final result = await _firebaseAuth.signInWithCredential(credential);
       final user = result.user;
 
       if (user != null && user.phoneNumber != null) {
+        // Cria collections users ao authenticar pela primeira vez
+        final userDoc = _firestore.collection('users').doc(user.uid);
+        final isExist = await userDoc.get();
+        if (!isExist.exists) {
+          await userDoc.set({
+            'uid': user.uid,
+            'phoneNumber': user.phoneNumber,
+            'name': '',
+            'email': '',
+            'createdAt': DateTime.now().toIso8601String(),
+          });
+        }
+
         return AuthModel.fromFirebaseUser(user).toEntity();
       }
 
